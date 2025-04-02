@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  password String
+  email    String @unique
+
+  // Relacionamento com histórico (cada usuário tem vários registros de histórico)
+  history Hist[]
+
+  // Relacionamento com saldo (cada usuário tem apenas um saldo)
+  balance Balance[]
+}
+
+model Hist {
+  id           Int @id @default(autoincrement())
+  agencia      Int
+  numero_conta Int
+  valor        Int
+  user_id      Int
+
+  // Relacionamento com usuário
+  user      User     @relation(fields: [user_id], references: [id])
+  create_at DateTime @default(now())
+}
+
+model Balance {
+  id           Int   @id @default(autoincrement())
+  saldo        Float @default(0)
+  agencia      Int   @default(1052)
+  numero_conta Int   @default(autoincrement())
+
+  // Relacionamento com usuário (cada usuário tem apenas um saldo)
+  user_id Int  @unique
+  user    User @relation(fields: [user_id], references: [id])
+}
