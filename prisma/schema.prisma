@@ -21,15 +21,23 @@ model User {
 }
 
 model Hist {
-  id           Int @id @default(autoincrement())
-  agencia      Int
-  numero_conta Int
-  valor        Int
-  user_id      Int
+  id                Int      @id @default(autoincrement())
+  sender_id         Int
+  sender_account    Int
+  recipient_id      Int
+  recipient_account Int
+  recipient_email   String
+  valor             Float
+  status_transfer   Status   @default(PENDING)
+  user              User     @relation(fields: [sender_id], references: [id])
+  create_at         DateTime @default(now())
+}
 
-  // Relacionamento com usuário
-  user      User     @relation(fields: [user_id], references: [id])
-  create_at DateTime @default(now())
+enum Status {
+  PENDING
+  COMPLETED
+  REVERTED
+  ERROR
 }
 
 model Balance {
@@ -37,8 +45,6 @@ model Balance {
   saldo        Float @default(0)
   agencia      Int   @default(1052)
   numero_conta Int   @default(autoincrement())
-
-  // Relacionamento com usuário (cada usuário tem apenas um saldo)
-  user_id Int  @unique
-  user    User @relation(fields: [user_id], references: [id])
+  user_id      Int   @unique
+  user         User  @relation(fields: [user_id], references: [id])
 }

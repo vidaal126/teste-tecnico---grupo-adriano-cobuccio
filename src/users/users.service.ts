@@ -3,7 +3,6 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { hashPassword } from 'utils/bcrypt';
 import { FindUser } from './dto/find-user.dto';
-import { RevertTransfer } from 'src/transfer/dto/revert-transfer.dto';
 
 @Injectable()
 export class UsersService {
