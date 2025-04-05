@@ -6,17 +6,20 @@ import { CreateHistDto } from './dto/create-hist.dto';
 export class HistService {
   constructor(private readonly prisma: PrismaService){}
 
-  async createHist(createHist: CreateHistDto) {
+  async createHist(createHistDto: CreateHistDto) {
     
     try {
       
       
       await this.prisma.hist.create({
         data:{
-          agencia: createHist.agencia,
-          numero_conta: createHist.numero_conta,
-          valor: createHist.valor,
-          user_id: createHist.user_id,
+        sender_id: createHistDto.sender_id,
+        sender_account: createHistDto.recipient_account,
+        recipient_id: createHistDto.recipient_id,
+        recipient_account: createHistDto.sender_account,
+        recipient_email:createHistDto.recipient_email,
+        valor:createHistDto.valor,
+        status_transfer: createHistDto.status_transfer,
         }
       })
     } catch (error) {
