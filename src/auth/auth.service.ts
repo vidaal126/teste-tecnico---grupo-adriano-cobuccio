@@ -43,7 +43,10 @@ export class AuthService {
       }
 
       // Verifica a senha
-      const passwordMatch = await comparePassword(authDto.password, existUser.password);
+      const passwordMatch = await comparePassword(
+        authDto.password,
+        existUser.password,
+      );
       if (!passwordMatch) {
         return {
           message: 'Senha incorreta',
@@ -54,7 +57,7 @@ export class AuthService {
 
       // Remove a senha do resultado e cria o payload do token
       const { password, ...result } = existUser;
-      const payload = { sub: existUser.id, username: existUser.email };
+      const payload = { user_id: existUser.id, useremail: existUser.email };
 
       // Retorna sucesso com o token
       return {

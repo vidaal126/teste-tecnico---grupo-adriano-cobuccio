@@ -1,8 +1,12 @@
-import { IsNotEmpty, IsNumber } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateRevertTransferDto {
-
-    @IsNotEmpty()
-    @IsNumber()
-    id: number
+  @ApiProperty({
+    description: 'Reversão de transferencia',
+    example: 'id: 1',
+  })
+  @IsNotEmpty()
+  @IsNumber()
+  id: number;
 }
